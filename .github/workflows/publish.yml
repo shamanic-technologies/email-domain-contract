@@ -29,5 +29,11 @@ jobs:
 
       - run: npm run build
 
-      - name: Publish via OIDC (Trusted Publishing)
+      # NOTE: NODE_AUTH_TOKEN is the bootstrap PAT. Once Trusted Publishing is
+      # confirmed working on npmjs.com, delete the NPM_TOKEN repo secret and
+      # remove the `env:` block — `npm publish --provenance` then auto-exchanges
+      # the GitHub Actions OIDC token for a short-lived publish credential.
+      - name: Publish to npm (with provenance)
         run: npm publish --access=public --provenance
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
