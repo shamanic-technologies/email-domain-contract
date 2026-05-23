@@ -29,5 +29,11 @@ jobs:
 
       - run: npm run build
 
-      - name: Publish via Trusted Publishing (OIDC)
+      # NOTE: NODE_AUTH_TOKEN is the bootstrap PAT. Trusted Publishing was set
+      # up on npmjs.com but consistently returns 404 — check the workflow
+      # filename + repository fields on npm match this repo exactly. Once OIDC
+      # is verified working, remove the `env:` block and revoke NPM_TOKEN.
+      - name: Publish to npm (with provenance)
         run: npm publish --access=public --provenance
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
