@@ -1,6 +1,6 @@
 {
   "name": "@shamanic-technologies/email-domain-contract",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Shared Zod schemas for the email domain (postmark-service, instantly-service, email-gateway). Single source of truth for cross-provider canonical shapes.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
