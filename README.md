@@ -16,13 +16,7 @@ The three services historically duplicated Zod schemas (`StatusScope`, `Recipien
 npm install @shamanic-technologies/email-domain-contract
 ```
 
-Add this to your `.npmrc`:
-
-```
-@shamanic-technologies:registry=https://npm.pkg.github.com
-```
-
-No auth token needed — the package is public.
+Published to the public npm registry — no `.npmrc` override or auth token needed.
 
 ## Usage
 
@@ -71,12 +65,14 @@ In v1 they are **optional** so postmark-service can return responses without the
 
 ## Publish
 
-Pushing a `v*` tag triggers `.github/workflows/publish.yml`, which runs tests, builds, and publishes to `npm.pkg.github.com` using the auto-injected `GITHUB_TOKEN`. No manual token setup required.
+Pushing a `v*` tag triggers `.github/workflows/publish.yml`, which runs tests, builds, and publishes to the public npm registry with provenance attestation.
 
 ```bash
 npm version major | minor | patch
 git push --follow-tags
 ```
+
+Bootstrap publish uses a granular NPM token stored as the `NPM_TOKEN` repo secret. Once the package exists on the registry, configure [Trusted Publishing](https://docs.npmjs.com/trusted-publishers) on npmjs.com so subsequent releases use OIDC instead — then revoke `NPM_TOKEN`.
 
 ## License
 
