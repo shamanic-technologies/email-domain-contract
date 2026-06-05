@@ -168,6 +168,65 @@ export const StatusScopeSchema = z.object({
     .describe(
       "ISO 8601 timestamp of last delivery in this scope; null if none",
     ),
+  // Per-event first-occurrence (MIN) timestamps — mirror of lastDeliveredAt (MAX).
+  // first*=MIN(event time in scope), null if the event never happened in scope.
+  // Surfaced for funnel chronology / cumulative revenue time-series (DIS-229).
+  firstContactedAt: z
+    .string()
+    .nullable()
+    .optional()
+    .describe(
+      "First-occurrence (MIN) ISO 8601 timestamp of a contacted event in this scope; null if it never happened in scope",
+    ),
+  firstSentAt: z
+    .string()
+    .nullable()
+    .optional()
+    .describe(
+      "First-occurrence (MIN) ISO 8601 timestamp of a sent event in this scope; null if it never happened in scope",
+    ),
+  firstDeliveredAt: z
+    .string()
+    .nullable()
+    .optional()
+    .describe(
+      "First-occurrence (MIN) ISO 8601 timestamp of a delivered event in this scope; null if it never happened in scope",
+    ),
+  firstOpenedAt: z
+    .string()
+    .nullable()
+    .optional()
+    .describe(
+      "First-occurrence (MIN) ISO 8601 timestamp of an opened event in this scope; null if it never happened in scope",
+    ),
+  firstClickedAt: z
+    .string()
+    .nullable()
+    .optional()
+    .describe(
+      "First-occurrence (MIN) ISO 8601 timestamp of a clicked event in this scope; null if it never happened in scope",
+    ),
+  firstRepliedAt: z
+    .string()
+    .nullable()
+    .optional()
+    .describe(
+      "First-occurrence (MIN) ISO 8601 timestamp of a replied event in this scope; null if it never happened in scope (always null for postmark — no reply tracking)",
+    ),
+  firstBouncedAt: z
+    .string()
+    .nullable()
+    .optional()
+    .describe(
+      "First-occurrence (MIN) ISO 8601 timestamp of a bounced event in this scope; null if it never happened in scope",
+    ),
+  firstUnsubscribedAt: z
+    .string()
+    .nullable()
+    .optional()
+    .describe(
+      "First-occurrence (MIN) ISO 8601 timestamp of an unsubscribed event in this scope; null if it never happened in scope",
+    ),
 });
 
 // ---------------------------------------------------------------------------
