@@ -122,6 +122,7 @@ describe("contract drift detection (snapshots)", () => {
         "replied",
         "replyClassification",
         "sent",
+        "sentCount",
         "unsubscribed",
       ]
     `);
@@ -161,6 +162,7 @@ describe("parse acceptance — known-good payloads", () => {
       unsubscribed: false,
       cancelled: false,
       lastDeliveredAt: "2026-03-02T12:00:00.000Z",
+      sentCount: 3,
     };
     expect(() => StatusScopeSchema.parse(payload)).not.toThrow();
   });

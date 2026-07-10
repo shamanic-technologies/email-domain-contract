@@ -227,6 +227,20 @@ export const StatusScopeSchema = z.object({
     .describe(
       "First-occurrence (MIN) ISO 8601 timestamp of an unsubscribed event in this scope; null if it never happened in scope",
     ),
+  // Per-scope send-event COUNT (not a boolean). Lets a consumer derive the
+  // recipient's sequence position: 1 = initial email, 2 = first follow-up,
+  // 3 = second follow-up, ... The providers populate it from their event
+  // stores; email-gateway forwards it through /orgs/status. Optional in
+  // contract v1 (absent from a provider that predates it → consumer reads
+  // as 0); brand scope = SUM across the brand's campaigns.
+  sentCount: z
+    .number()
+    .int()
+    .nonnegative()
+    .optional()
+    .describe(
+      "Number of emails actually sent to the recipient in this scope (send-event count, not a boolean); 0 when no send. Sequence position derives from it: 1 = initial, 2 = first follow-up, 3 = second follow-up. Optional in contract v1; brand scope = SUM across the brand's campaigns.",
+    ),
 });
 
 // ---------------------------------------------------------------------------
