@@ -20,20 +20,18 @@ jobs:
           node-version: "22"
           registry-url: "https://registry.npmjs.org"
 
-      - name: Upgrade npm CLI for Trusted Publishing support
-        run: npm install -g npm@latest
-
       - run: npm install
 
       - run: npm test
 
       - run: npm run build
 
-      # NOTE: NODE_AUTH_TOKEN is the bootstrap PAT. Trusted Publishing was set
-      # up on npmjs.com but consistently returns 404 — check the workflow
-      # filename + repository fields on npm match this repo exactly. Once OIDC
-      # is verified working, remove the `env:` block and revoke NPM_TOKEN.
-      - name: Publish to npm (with provenance)
-        run: npm publish --access=public --provenance
+      # NOTE: NODE_AUTH_TOKEN is the bootstrap PAT. `--provenance` is disabled:
+      # it requires the bundled `sigstore` module, which a newer `npm@latest`
+      # ships broken (`Cannot find module 'sigstore'`) — it failed the v1.2.0
+      # publish. Trusted Publishing (OIDC) still 404s on npmjs.com anyway, so
+      # provenance buys nothing today; publish with the NPM_TOKEN bootstrap PAT.
+      - name: Publish to npm
+        run: npm publish --access=public
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
